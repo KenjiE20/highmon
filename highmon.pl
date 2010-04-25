@@ -1,6 +1,6 @@
 #
 # highmon.pl - Highlight Monitoring for weechat 0.3.0
-# Version 1.9
+# Version 2.0
 #
 # Add 'Highlight Monitor' buffer/bar to log all highlights in one spot
 #
@@ -57,6 +57,8 @@
 #
 
 # History:
+# 2010-04-25, KenjiE20 <longbow@longbowslair.co.uk>:
+#	v2.0:	Release as version 2.0
 # 2010-04-24, KenjiE20 <longbow@longbowslair.co.uk>:
 #	v1.9:	Rewrite for v2.0
 #		Bring feature set in line with chanmon 2.0
@@ -891,7 +893,7 @@ sub format_buffer_name
 }
 
 # Check result of register, and attempt to behave in a sane manner
-if (!weechat::register("highmon", "KenjiE20", "1.9", "GPL3", "Highlight Monitor", "", ""))
+if (!weechat::register("highmon", "KenjiE20", "2.0", "GPL3", "Highlight Monitor", "", ""))
 {
 	# Double load
 	weechat::print ("", "\tHighmon is already loaded");
