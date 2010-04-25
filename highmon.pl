@@ -65,6 +65,11 @@
 #		-code change: Made more subs to shrink the code down in places
 #		-fix: Stop highmon attempting to double load/hook
 #		-fix: Add version dependant check for away status
+# 2010-01-25, KenjiE20 <longbow@longbowslair.co.uk>: 
+#       v1.7:   -fixture: Let highmon be aware of nick_prefix/suffix 
+#                       and allow custom prefix/suffix for chanmon buffer 
+#                       (Defaults to <> if nothing set, and blank if there is) 
+#               (Thanks to m4v for these) 
 # 2009-09-07, KenjiE20 <longbow@longbowslair.co.uk>:
 #	v1.6:	-feature: colored buffer names
 #		-change: version sync with chanmon
