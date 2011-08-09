@@ -63,7 +63,7 @@
 # History:
 # 2011-08-07, Sitaktif <romainchossart_at_gmail.com>:
 #	v2.2.1:	-feature: Add "bar_scrolldown" option to have the bar display the latest hl at anytime
-#		-fix: Set up bar-specific config at startup if 'output' is already configured as 'bar'
+#			-fix: Set up bar-specific config at startup if 'output' is already configured as 'bar'
 # 2010-12-22, KenjiE20 <longbow@longbowslair.co.uk>:
 #	v2.2:	-change: Use API instead of config to find channel colours, ready for 0.3.4 and 256 colours
 # 2010-12-13, idl0r & KenjiE20 <longbow@longbowslair.co.uk>:
