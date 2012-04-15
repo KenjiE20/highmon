@@ -815,9 +815,20 @@ sub highmon_print
 		use POSIX qw(strftime);
 		$time = strftime(weechat::config_string(weechat::config_get("weechat.look.buffer_time_format")), localtime);
 		# Colourise
-		$colour = weechat::color(weechat::config_string(weechat::config_get("weechat.color.chat_time_delimiters")));
-		$reset = weechat::color("reset");
-		$time =~ s/(\d*)(.)(\d*)/$1$colour$2$reset$3/g;
+		if ($time =~ /\$\{\w+\}/) # Coloured string
+		{
+			while ($time =~ /\$\{(\w+)\}/)
+			{
+				$color = weechat::color($1);
+				$time =~ s/\$\{\w+\}/$color/;
+			}
+		}
+		else # Default string
+		{
+			$colour = weechat::color(weechat::config_string(weechat::config_get("weechat.color.chat_time_delimiters")));
+			$reset = weechat::color("reset");
+			$time =~ s/(\d*)(.)(\d*)/$1$colour$2$reset$3/g;
+		}
 		# Push updates to bar lists
 		push (@bar_lines_time, $time);
 		
@@ -1020,7 +1031,7 @@ sub format_buffer_name
 }
 
 # Check result of register, and attempt to behave in a sane manner
-if (!weechat::register("highmon", "KenjiE20", "2.3", "GPL3", "Highlight Monitor", "", ""))
+if (!weechat::register("highmon", "KenjiE20", "2.3.1", "GPL3", "Highlight Monitor", "", ""))
 {
 	# Double load
 	weechat::print ("", "\tHighmon is already loaded");
