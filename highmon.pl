@@ -1,6 +1,6 @@
 #
 # highmon.pl - Highlight Monitoring for weechat 0.3.0
-# Version 2.3
+# Version 2.3.1
 #
 # Add 'Highlight Monitor' buffer/bar to log all highlights in one spot
 #
@@ -64,6 +64,8 @@
 #
 
 # History:
+# 2012-04-15, KenjiE20 <longbow@longbowslair.co.uk>:
+#	v2.3.1:	-fix: Colour tags in bar timestamp string
 # 2012-02-28, KenjiE20 <longbow@longbowslair.co.uk>:
 #	v2.3:	-feature: Added merge_private option to display private messages (default: off)
 #			-fix: Channel name colours now show correctly when set to on
