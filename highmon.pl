@@ -1,6 +1,6 @@
 #
 # highmon.pl - Highlight Monitoring for weechat 0.3.0
-# Version 2.3.1
+# Version 2.3.2
 #
 # Add 'Highlight Monitor' buffer/bar to log all highlights in one spot
 #
@@ -63,7 +63,12 @@
 #  #channel is the channel name, (where # is whatever channel type that channel happens to be)
 #
 
+# Bugs and feature requests at: https://github.com/KenjiE20/highmon
+
 # History:
+# 2013-01-15, KenjiE20 <longbow@longbowslair.co.uk>:
+#	v2.3.2:	-fix: Let bar output use the string set in weechat's config option
+#			-add: github info
 # 2012-04-15, KenjiE20 <longbow@longbowslair.co.uk>:
 #	v2.3.1:	-fix: Colour tags in bar timestamp string
 # 2012-02-28, KenjiE20 <longbow@longbowslair.co.uk>:
@@ -205,16 +210,17 @@ sub highmon_bar_build
 	if (@bar_lines)
 	{
 		# Build loop
+		$sep = " ".weechat::config_string(weechat::config_get("weechat.look.prefix_suffix"))." ";
 		foreach(@bar_lines)
 		{
 			# Find max align needed
-			$prefix_num = (index(weechat::string_remove_color($_, ""), " | "));
+			$prefix_num = (index(weechat::string_remove_color($_, ""), $sep));
 			$align_num = $prefix_num if ($prefix_num > $align_num);
 		}		
 		foreach(@bar_lines)
 		{
 			# Get align for this line
-			$prefix_num = (index(weechat::string_remove_color($_, ""), " | "));
+			$prefix_num = (index(weechat::string_remove_color($_, ""), $sep));
 			
 			# Make string
 			$str = $str.$bar_lines_time[$count]." ".(" " x ($align_num - $prefix_num)).$_."\n";
@@ -595,6 +601,15 @@ sub highmon_config_cb
 			weechat::buffer_set($highmon_buffer, "notify", "3");
 		}
 	}
+	elsif ($name eq "weechat.look.prefix_suffix")
+	{
+		if (weechat::config_get_plugin("output") eq "bar")
+		{
+			@bar_lines = ();
+			weechat::print("", "\thighmon: weechat.look.prefix_suffix changed, clearing highmon bar");
+			weechat::bar_item_update("highmon");
+		}
+	}
 	return weechat::WEECHAT_RC_OK;
 }
 
@@ -607,6 +622,7 @@ sub highmon_hook
 	weechat::hook_command("highmon", "Highmon help", "[help] | [monitor [channel [server]]] | [clean default|orphan|all]", "   help: Print help on config options for highmon\n monitor: Toggles monitoring for a channel\n  clean: Highmon config clean up (/highclean)", "help || monitor %(irc_channels) %(irc_servers) || clean default|orphan|all", "highmon_command_cb", "");
 	
 	weechat::hook_config("plugins.var.perl.highmon.*", "highmon_config_cb", "");
+	weechat::hook_config("weechat.look.prefix_suffix", "highmon_config_cb", "");
 }
 
 # Main body, Callback for hook_print
@@ -835,7 +851,7 @@ sub highmon_print
 		push (@bar_lines_time, $time);
 		
 		# Change tab char
-		$delim = weechat::color(weechat::config_string(weechat::config_get("weechat.color.chat_delimiters")))." | ".weechat::color("reset");
+		$delim = " ".weechat::color(weechat::config_string(weechat::config_get("weechat.color.chat_delimiters"))).weechat::config_string(weechat::config_get("weechat.look.prefix_suffix")).weechat::color("reset")." ";
 		$outstr =~ s/\t/$delim/;
 		
 		push (@bar_lines, $outstr);
@@ -1033,7 +1049,7 @@ sub format_buffer_name
 }
 
 # Check result of register, and attempt to behave in a sane manner
-if (!weechat::register("highmon", "KenjiE20", "2.3.1", "GPL3", "Highlight Monitor", "", ""))
+if (!weechat::register("highmon", "KenjiE20", "2.3.2", "GPL3", "Highlight Monitor", "", ""))
 {
 	# Double load
 	weechat::print ("", "\tHighmon is already loaded");
