@@ -852,12 +852,12 @@ sub highmon_print
 		use POSIX qw(strftime);
 		$time = strftime(weechat::config_string(weechat::config_get("weechat.look.buffer_time_format")), localtime);
 		# Colourise
-		if ($time =~ /\$\{\w+\}/) # Coloured string
+		if ($time =~ /\$\{(?:color:)?\w+\}/) # Coloured string
 		{
-			while ($time =~ /\$\{(\w+)\}/)
+			while ($time =~ /\$\{(?:color:)?(\w+)\}/)
 			{
 				$color = weechat::color($1);
-				$time =~ s/\$\{\w+\}/$color/;
+				$time =~ s/\$\{(?:color:)?\w+\}/$color/;
 			}
 			$time .= weechat::color("reset");
 		}
