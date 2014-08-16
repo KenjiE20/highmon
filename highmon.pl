@@ -355,6 +355,15 @@ sub highmon_command_cb
 	{
 		highmon_config_clean($data, $buffer, $arg);
 	}
+	# clearbar command
+	elsif ($cmd eq "clearbar")
+	{
+		if (weechat::config_get_plugin("output") eq "bar")
+		{
+			@bar_lines = ();
+			weechat::bar_item_update("highmon");
+		}
+	}
 	# Fix closed buffer
 	elsif ($cmd eq "fix")
 	{
@@ -640,7 +649,7 @@ sub highmon_hook
 	weechat::hook_print("", "", "", 0, "highmon_new_message", "");
 	weechat::hook_command("highclean", "Highmon config clean up", "default|orphan|all", " default: Cleans all config entries with the default \"on\" value\n  orphan: Cleans all config entries for channels you aren't currently joined\n     all: Does both defaults and orphan", "default|orphan|all", "highmon_config_clean", "");
 	
-	weechat::hook_command("highmon", "Highmon help", "[help] | [monitor [channel [server]]] | [clean default|orphan|all]", "   help: Print help on config options for highmon\n monitor: Toggles monitoring for a channel\n  clean: Highmon config clean up (/highclean)", "help || monitor %(irc_channels) %(irc_servers) || clean default|orphan|all", "highmon_command_cb", "");
+	weechat::hook_command("highmon", "Highmon help", "[help] | [monitor [channel [server]]] | [clean default|orphan|all] | clearbar", "    help: Print help on config options for highmon\n monitor: Toggles monitoring for a channel\n   clean: Highmon config clean up (/highclean)\nclearbar: Clear Highmon bar", "help || monitor %(irc_channels) %(irc_servers) || clean default|orphan|all || clearbar", "highmon_command_cb", "");
 	
 	weechat::hook_config("plugins.var.perl.highmon.*", "highmon_config_cb", "");
 	weechat::hook_config("weechat.look.prefix_suffix", "highmon_config_cb", "");
