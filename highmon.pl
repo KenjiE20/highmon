@@ -5,11 +5,13 @@
 # Add 'Highlight Monitor' buffer/bar to log all highlights in one spot
 #
 # Usage:
-# /highmon [help] | [monitor [channel [server]]] | [clean default|orphan|all]
+# /highmon [help] | [monitor [channel [server]]] | [clean default|orphan|all] | clearbar
 #  Command wrapper for highmon commands
 #
 # /highmon clean default|orphan|all will clean the config section of default 'on' entries,
 #  channels you are no longer joined, or both
+#
+# /highmon clearbar will clear the contents of highmon's bar output
 #
 # /highmon monitor [channel] [server] is used to toggle a highlight monitoring on and off, this
 #  can be used in the channel buffer for the channel you wish to toggle, or be given
@@ -140,10 +142,12 @@
 @bar_lines_time = ();
 # Replicate info earlier for in-client help
 
-$highmonhelp = weechat::color("bold")."/highmon [help] | [monitor [channel [server]]] | [clean default|orphan|all]".weechat::color("-bold")."
+$highmonhelp = weechat::color("bold")."/highmon [help] | [monitor [channel [server]]] | [clean default|orphan|all] | clearbar".weechat::color("-bold")."
  Command wrapper for highmon commands
 
 ".weechat::color("bold")."/highmon clean default|orphan|all".weechat::color("-bold")." will clean the config section of default 'on' entries, channels you are no longer joined, or both
+
+".weechat::color("bold")."/highmon clearbar".weechat::color("-bold")." will clear the contents of highmon's bar output
 
 ".weechat::color("bold")."/highmon monitor [channel] [server]".weechat::color("-bold")." is used to toggle a highlight monitoring on and off, this can be used in the channel buffer for the channel you wish to toggle, or be given with arguments e.g. /highmon monitor #weechat freenode
 
