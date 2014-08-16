@@ -1,6 +1,6 @@
 #
 # highmon.pl - Highlight Monitoring for weechat 0.3.0
-# Version 2.4
+# Version 2.5
 #
 # Add 'Highlight Monitor' buffer/bar to log all highlights in one spot
 #
@@ -73,6 +73,11 @@
 # Bugs and feature requests at: https://github.com/KenjiE20/highmon
 
 # History:
+# 2014-08-16, KenjiE20 <longbow@longbowslair.co.uk>:
+#	v2.5:	-add: clearbar command to clear bar output
+#			-add: firstrun output prompt to check the help text for set up hints as they were being missed
+#			and update hint for conditions to use eval
+#			-change: Make all outputs use the date callback for more accurate timestamps (thanks Germainz)
 # 2013-12-04, KenjiE20 <longbow@longbowslair.co.uk>:
 #	v2.4:	-add: Support for eval style colour codes in time format used for bar output
 # 2013-10-22, KenjiE20 <longbow@longbowslair.co.uk>:
@@ -1119,7 +1124,7 @@ sub format_buffer_name
 }
 
 # Check result of register, and attempt to behave in a sane manner
-if (!weechat::register("highmon", "KenjiE20", "2.4", "GPL3", "Highlight Monitor", "", ""))
+if (!weechat::register("highmon", "KenjiE20", "2.5", "GPL3", "Highlight Monitor", "", ""))
 {
 	# Double load
 	weechat::print ("", "\tHighmon is already loaded");
