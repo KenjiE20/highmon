@@ -64,6 +64,11 @@
 #  servername is the internal name for the server (set when you use /server add)
 #  #channel is the channel name, (where # is whatever channel type that channel happens to be)
 #
+# Optional, set up tweaks; Hide the status and input lines on highmon
+#
+# /set weechat.bar.status.conditions "${window.buffer.full_name} != perl.highmon"
+# /set weechat.bar.input.conditions "${window.buffer.full_name} != perl.highmon"
+#
 
 # Bugs and feature requests at: https://github.com/KenjiE20/highmon
 
@@ -194,7 +199,12 @@ Setting this to 'on' will only put messages in the highmon buffer when you set y
 
 ".weechat::color("bold")."servername.#channel".weechat::color("-bold")."
  servername is the internal name for the server (set when you use /server add)
- #channel is the channel name, (where # is whatever channel type that channel happens to be)";
+ #channel is the channel name, (where # is whatever channel type that channel happens to be)
+
+".weechat::color("bold")."Optional, set up tweaks;".weechat::color("-bold")." Hide the status and input lines on highmon
+
+".weechat::color("bold")."/set weechat.bar.status.conditions \"\${window.buffer.full_name} != perl.highmon\"".weechat::color("-bold")."
+".weechat::color("bold")."/set weechat.bar.input.conditions \"\${window.buffer.full_name} != perl.highmon\"".weechat::color("-bold");
 # Print verbose help
 sub print_help
 {
