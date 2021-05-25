@@ -27,6 +27,10 @@
 # /set plugins.var.perl.highmon.short_names
 #  Setting this to 'on' will trim the network name from highmon, ala buffers.pl
 #
+# /set plugins.var.perl.highmon.short_names_server
+#  Setting 'short_names' and this to 'on' will show both network name and buffer short_name.
+#  Useful in combination with plugins that use machine-readable full names like weechat-matrix.
+#
 # /set plugins.var.perl.highmon.merge_private
 #  Setting this to 'on' will merge private messages to highmon's display
 #
@@ -74,6 +78,7 @@
 # History:
 # 2021-05-25, Tomas Janousek <tomi@nomi.cz:
 #	v2.8:	-refactor: reduce code duplication in format_buffer_name
+#			-add: short_names_server for better experience with weechat-matrix
 # 2020-06-21, Sebastien Helleu <flashcode@flashtux.org>:
 #	v2.7: make call to bar_new compatible with WeeChat >= 2.9
 # 2019-05-13, HubbeKing <hubbe128@gmail.com>
@@ -176,6 +181,10 @@ $highmonhelp = weechat::color("bold")."/highmon [help] | [monitor [channel [serv
 
 ".weechat::color("bold")."/set plugins.var.perl.highmon.short_names".weechat::color("-bold")."
  Setting this to 'on' will trim the network name from highmon, ala buffers.pl
+
+".weechat::color("bold")."/set plugins.var.perl.highmon.short_names_server".weechat::color("-bold")."
+ Setting 'short_names' and this to 'on' will show both network name and buffer short_name.
+ Useful in combination with plugins that use machine-readable full names like weechat-matrix.
 
 ".weechat::color("bold")."/set plugins.var.perl.highmon.merge_private".weechat::color("-bold")."
  Setting this to 'on' will merge private messages to highmon's display
@@ -522,6 +531,12 @@ sub highmon_config_init
 	if (!(weechat::config_is_set_plugin ("short_names")))
 	{
 		weechat::config_set_plugin("short_names", "off");
+	}
+
+	# Short names + server default
+	if (!(weechat::config_is_set_plugin ("short_names_server")))
+	{
+		weechat::config_set_plugin("short_names_server", "off");
 	}
 
 	# Coloured names default
@@ -1063,6 +1078,10 @@ sub format_buffer_name
 	if (weechat::config_get_plugin("merge_private") eq "on" && weechat::buffer_get_string($cb_bufferp, "localvar_type") eq "private")
 	{
 		$bufname = weechat::buffer_get_string($cb_bufferp, "localvar_server");
+	}
+	elsif (weechat::config_get_plugin("short_names") eq "on" and weechat::config_get_plugin("short_names_server") eq "on")
+	{
+		$bufname = weechat::buffer_get_string($cb_bufferp, "localvar_server") . weechat::buffer_get_string($cb_bufferp, 'short_name');
 	}
 	# Format name to short or 'nicename'
 	elsif (weechat::config_get_plugin("short_names") eq "on")
